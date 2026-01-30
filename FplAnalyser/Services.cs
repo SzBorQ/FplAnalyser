@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Globalization;
+using System.Net.Http.Json;
 using System.Reflection;
 using System.Text;
 
@@ -79,8 +80,11 @@ public static class CsvExporter
         if (!propsToExport.Any()) propsToExport = allProps;
 
         var sb = new StringBuilder();
+        var commaFormat = new NumberFormatInfo
+        {
+            NumberDecimalSeparator = ","
+        };
 
-     
         sb.AppendLine(string.Join(";", propsToExport.Select(p => p.Name)));
 
      
@@ -92,8 +96,8 @@ public static class CsvExporter
               
                 return val switch
                 {
-                    double d => d.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
-                    decimal dec => dec.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
+                    double d => d.ToString("0.00", commaFormat),
+                    decimal dec => dec.ToString("0.00", commaFormat),
                     _ => val?.ToString() ?? ""
                 };
             });
