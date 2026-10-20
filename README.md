@@ -1,33 +1,31 @@
 # FPL ANALYSER
-FplAnalyser to konsolowa aplikacja w języku C# służąca do analizy danych z oficjalnego API Fantasy Premier League. Narzędzie pozwala na analizę formy zawodników, porównywanie graczy oraz generowanie raportów w formacie CSV.
+FplAnalyser is a C# console application designed for analyzing data from the official Fantasy Premier League API. The tool allows users to evaluate player form, compare players, and export reports in CSV format.
 
-# Zarys obsługi
-Uruchamiając aplikację do dyspozycji są 3 możliwości:
-- Skorzystanie z przygotowanych wcześniej zapytań odpowiadających na często zadawane pytania przez graczy FPL. Do dyspozycji jest 12 zapytań, każde opatrzone w miarę idiomatycznym tytułem,
-- Utworzenie własnego porównania,
-- Porównanie wszystkich zawodników.
+# Overview
+Upon launching the application, three options are available:
+- Use predefined queries answering common questions asked by FPL managers. There are 12 queries available, each with an intuitive, self-explanatory title.
+- Create a custom comparison.
+- Compare all players.
 
-Po każdorazowym utworzeniu porównania istnieje możliwość jego eksportu do pliku formatu .csv wybranego przez użytkownika (domyślnie w utworzonym folderze Documents/FplAnalyser.
+After generating any comparison, users can export it to a chosen .csv file (by default saved in the generated `Documents/FplAnalyser` folder).
 
-## Tworzenie własnych porównań
-Aby utworzyć własne porównania należy wybrać zawodników do porównywania. Dodawać można ich pojedynczo, po wpisaniu części nazwiska wyświetli się lista pasujących, z których należy wybrać numer, lub grupowo, ze względu na drużynę oraz pozycję. Wybrani zawodnicy są gotowi do porównania. Użytkownik może skonfigurować jakie dane mają zostać uwzględnione w porównaniu (domyślnie nazwisko, drużyna, pozycja, cena, suma punktów, forma).
+## Creating Custom Comparisons
+To build a custom comparison, select the players you want to compare. You can add them individually (typing part of a surname displays a list of matching players to choose from by index) or in bulk by team and position. Once selected, the players are ready for comparison. The user can configure which statistics to include (by default: surname, team, position, price, total points, and form).
 
-# Struktura projektu
+# Project Structure
 ## Models.cs
-Plik z definicjami typów służących do deserializacji JSON oraz wewnętrzny model aplikacji.
-- FplRoot, Player, Team: Klasy odwzorowujące surową strukturę JSON z API Premier League. Używają atrybutów [JsonPropertyName] do mapowania pól.
-- PlayerEnhanced: Typ powstały poprzez połączenie zdeserializowanych danych.
+Contains type definitions for JSON deserialization as well as the application's internal data model.
+- `FplRoot`, `Player`, `Team`: Classes mapping the raw JSON structure from the Premier League API, utilizing `[JsonPropertyName]` attributes for property binding.
+- `PlayerEnhanced`: An extended type created by combining the deserialized data models.
 
 ## Analyzer.cs
-Tworzy listę PlayerEnhanced i zawiera serię zapytań LINQ odnośnie nich.
+Constructs the `PlayerEnhanced` collection and contains a series of LINQ queries operating on it.
 
 ## Program.cs
-Obsługuje główną pętle programu a ponadto:
-- Zarządza porównywarką
-- Zawiera metodę PrintDynamicTable wykorzystującą refleksję do wyświetlania obiektu w formie tabelki
+Handles the main application loop, along with:
+- Managing the comparison workflow.
+- Providing the `PrintDynamicTable` method, which utilizes reflection to format and display objects as a console table.
 
 ## Services.cs
-- Komunikuje się z API
-- Zarządza eksportem danych do .csv
-
-
+- Communicates with the external API.
+- Handles exporting data to .csv format.
